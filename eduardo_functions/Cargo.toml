@@ -1,0 +1,13 @@
+[package]
+name = "eduardo_functions"
+version = "0.1.0"
+edition = "2024"
+authors = ["Eduardo <eduwric@gmail.com>"]
+description = "Helper function libraries"
+homepage = "https://github.com/eduwr/rust-course/eduardo_functions"
+license = "MIT"
+
+keywords = ["eduwric", "helper", "functions"]
+categories = ["functions"]
+
+[dependencies]
