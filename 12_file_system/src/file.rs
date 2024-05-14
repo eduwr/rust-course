@@ -1,6 +1,6 @@
 use std::{
     env,
-    fs::File,
+    fs::{self, metadata, File},
     io::{Read, Write},
 };
 
@@ -43,14 +43,41 @@ pub fn create(path: &str, file_name: &str) -> Option<String> {
 }
 
 pub fn read(file_path: &str) {
-    match File::open(file_path) {
-        Ok(mut file) => {
-            let mut content = String::new();
-            file.read_to_string(&mut content).unwrap();
-            println!("File opened: {}", content);
-        }
-        Err(e) => {
-            println!("Could not read the file: {}", e);
+    if exists(file_path).is_ok() {
+        match File::open(file_path) {
+            Ok(mut file) => {
+                let mut content = String::new();
+                file.read_to_string(&mut content).unwrap();
+                println!("File opened: {}", content);
+            }
+            Err(e) => {
+                println!("Could not read the file: {}", e);
+            }
         }
     }
+}
+
+pub fn exists(file_path: &str) -> Result<(), &str> {
+    if metadata(file_path).is_ok() {
+        Ok(())
+    } else {
+        Err("File not found")
+    }
+}
+
+pub fn read_dir(path: &str) -> Result<(), std::io::Error> {
+    let items = fs::read_dir(path)?;
+
+    for item in items {
+        let item = item?;
+
+        let item_path = item.path();
+
+        if item_path.is_dir() {
+            println!("Dir: {}", item_path.display());
+        } else {
+            println!("File: {}", item_path.display());
+        }
+    }
+    Ok(())
 }
