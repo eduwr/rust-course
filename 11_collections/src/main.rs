@@ -41,7 +41,7 @@ fn hashmap() {
     match map.get(&"url".to_string()) {
         Some(val) => {
             println!("{}", val);
-        },
+        }
         None => {
             println!("Not found");
         }
